@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Post;
+use App\Category;
+use App\CatPost;
 
 class PostController extends Controller
 {
@@ -44,7 +46,8 @@ class PostController extends Controller
     }
     public function getCreatePost()
     { // this function returns the view witch has the form to create post
-        return view('admin.blog.create_post');
+        $cats = Category::all();
+        return view('admin.blog.create_post', compact('cats'));
     }
     public function postCreatePost(Request $request)
     {
@@ -59,9 +62,58 @@ class PostController extends Controller
         $post->author   = $request['author'];
         $post->body     = $request['body'];
         $post->save(); //save the received data
-        // Categouries
+
+        foreach ($request['cat_select'] as $value) {
+            $catpost = new CatPost();
+            $catpost->post_id = $post->id;
+            $catpost->category_id = $value;
+            $catpost->save();
+        }
+
         return redirect()->route('admin.blog.create_post')->with('success', 'Post Created');
     }
+
+
+    public function getEditPost($id)
+    {
+        $post = Post::find($id);
+        if (!$post) {
+            return redirect()->route('admin.index')->with(['fail'=>'Post Not Found']);
+        }
+        return view('admin.blog.edit_post', compact('post'));
+    }
+    public function postEditPost(Request $request)
+    {
+        $id = $request['id'];
+        $this->validate($request, [ // vaildate the incoming data
+            'title'     => 'required|max:50|unique:posts,title,'.$id,
+            'author'    => 'required',
+            'body'      => 'required'
+        ]);
+
+        $post = Post::find($id);
+
+        if (!$post) {
+            return redirect()->route('admin.index')->with(['fail'=>'Post Not Found']);
+        }
+
+        $post->title    = $request['title'];
+        $post->author   = $request['author'];
+        $post->body     = $request['body'];
+        $post->save(); //save the received data
+        return redirect()->back()->with('success', 'Post Updated');
+    }
+
+    public function delete($id)
+    {
+        $post = Post::find($id);
+        if (!$post) {
+            return redirect()->route('admin.index')->with(['fail'=>'Post Not Found']);
+        }
+        $post->delete();
+        return redirect()->route('admin.index')->with(['success'=>'Post Deleted Successfully']);
+    }
+
 
     private function shortText($text, $words_count)
     { // function to determine the text length
@@ -72,4 +124,5 @@ class PostController extends Controller
             return $text;
         }
     }
+
 }

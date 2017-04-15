@@ -31,9 +31,10 @@
                       @include('includes.message')
                   </div>
               </div>
-              <h1 class="text-center">Add New Post</h1>
+              <h1 class="text-center">Edit Post</h1>
               <hr>
-              <form action="#" method="post">
+              <form action="{{ route('admin.blog.post.update') }}" method="post">
+                  <input type="hidden" name="id" value="{{ isset($post) ? $post->id : '' }}">
                   {{-- Start Title --}}
                   <div class="form-group">
                       <div class="row">
@@ -41,7 +42,7 @@
                               <label for="title" class="pull-right">Title</label>
                           </div>
                           <div class="col-md-8">
-                              <input type="text" name="title" class="form-control" id="title" placeholder="Title">
+                              <input type="text" name="title" class="form-control" id="title" placeholder="Title" value="{{ Request::old('title') != '' ? Request::old('title') : $post->title }}">
                           </div>
                       </div>
                   </div>
@@ -53,7 +54,7 @@
                               <label for="author" class="pull-right">Author</label>
                           </div>
                           <div class="col-md-8">
-                              <input type="text" name="author" class="form-control" id="author" placeholder="Author">
+                              <input type="text" name="author" class="form-control" id="author" placeholder="Author" value="{{ Request::old('author') != '' ? Request::old('author') : $post->author }}">
                           </div>
                       </div>
                   </div>
@@ -65,7 +66,7 @@
                               <label for="category" class="pull-right">category</label>
                           </div>
                           <div class="col-md-6">
-                              <select class="form-control" name="category">
+                              <select class="form-control" name="category_select">
                                   <option value="dummy">Dummy</option>
                               </select>
                           </div>
@@ -89,7 +90,7 @@
                               <label for="Body" class="pull-right">Body</label>
                           </div>
                           <div class="col-md-8">
-                              <textarea type="text" rows="5" name="body" class="form-control" id="body" placeholder="Body"></textarea>
+                              <textarea type="text" rows="5" name="body" class="form-control" id="body" placeholder="Body">{{ Request::old('body') != '' ? Request::old('body') : $post->body }}</textarea>
                           </div>
                       </div>
                   </div>
@@ -100,7 +101,7 @@
 
                           </div>
                           <div class="col-md-8">
-                              <button type="submit" class="btn btn-primary">Add Post</button>
+                              <button type="submit" class="btn btn-primary">Edit Post</button>
                           </div>
                       </div>
                   </div>

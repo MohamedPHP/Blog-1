@@ -17,6 +17,8 @@
             box-shadow: 1px 1px 8px #000;
         }
     </style>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 @endsection
 
 @section('content')
@@ -65,19 +67,12 @@
                               <label for="category" class="pull-right">category</label>
                           </div>
                           <div class="col-md-6">
-                              <select class="form-control" name="category">
-                                  <option value="dummy">Dummy</option>
+                              <select class="selectpicker" multiple name="cat_select[]">
+                                  @foreach ($cats as $cat)
+                                      <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                  @endforeach
                               </select>
                           </div>
-                          <div class="col-md-2">
-                              <button type="button" class="btn btn-primary">Add Category</button>
-                          </div>
-                      </div>
-                      <div class="col-md-6 col-md-offset-3">
-                          <ul class="added_catrgories">
-                              <li></li>
-                          </ul>
-                          <input type="hidden" name="category">
                       </div>
                   </div>
                   {{-- End category --}}
@@ -109,4 +104,9 @@
           </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 @endsection

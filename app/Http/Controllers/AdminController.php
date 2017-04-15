@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function getIndex()
     { // views admin index page
-        $posts = Post::orderBy('created_at', 'DESC')->take(3)->get();
+        $posts = Post::orderBy('created_at', 'DESC')->take(4)->get();
         return view('admin.index', ['posts' => $posts]);
     }
 }

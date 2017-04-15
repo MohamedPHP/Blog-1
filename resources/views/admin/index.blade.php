@@ -38,8 +38,8 @@
                                       {{ $post->author }} | {{ $post->created_at }}
                                   </p>
                                   <a href="{{ route('admin.blog.post', ['postid' => $post->id]) }}" class="btn btn-sm btn-primary" style="display: inline-block !important;">View</a>
-                                  <a href="#" class="btn btn-sm btn-info">Edit</a>
-                                  <a href="#" class="btn btn-sm btn-danger">delete</a>
+                                  <a href="{{ route('admin.blog.edit_post', ['id' => $post->id]) }}" class="btn btn-sm btn-info">Edit</a>
+                                  <a href="{{ route('admin.blog.delete', ['id' => $post->id]) }}" class="btn btn-sm btn-danger">delete</a>
                               </div>
                           </div>
                       @endforeach

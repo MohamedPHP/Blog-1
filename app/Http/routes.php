@@ -30,24 +30,64 @@ Route::get('/contact', [ // contact us page
 ]);
 
 Route::group(['prefix' => '/admin'], function (){ // all the admin routes ara here
-    Route::get('/', [ // admin home page
+    Route::get('/', [
         'uses'  =>  'AdminController@getIndex',
         'as'    =>  'admin.index'
     ]);
-    Route::get('/blog/posts', [ // admin posts page
+    // start posts
+    Route::get('/blog/posts', [
         'uses'  =>  'PostController@getPostIndex',
         'as'    =>  'admin.blog.index'
     ]);
-    Route::get('/blog/post/{postid}', [ // admin posts single page
+    Route::get('/blog/post/{postid}', [
         'uses'  =>  'PostController@getSinglePostBackend',
         'as'    =>  'admin.blog.post'
     ]);
-    Route::get('/blog/posts/create', [ // create post from admin
+    Route::get('/blog/posts/create', [
         'uses'  =>  'PostController@getCreatePost',
         'as'    =>  'admin.blog.create_post'
     ]);
-    Route::post('/blog/post/create', [ // the post request to create post
+    Route::post('/blog/post/create', [
         'uses'  =>  'PostController@postCreatePost',
         'as'    =>  'admin.blog.post.create'
     ]);
+    Route::get('/blog/posts/edit/{id}', [
+        'uses'  =>  'PostController@getEditPost',
+        'as'    =>  'admin.blog.edit_post'
+    ]);
+    Route::post('/blog/post/update', [
+        'uses'  =>  'PostController@postEditPost',
+        'as'    =>  'admin.blog.post.update'
+    ]);
+
+    Route::get('/blog/posts/delete/{id}', [
+        'uses'  =>  'PostController@delete',
+        'as'    =>  'admin.blog.delete'
+    ]);
+    // end posts
+
+    // start cats
+    Route::get('/blog/cats', [
+        'uses'  =>  'CatController@getCats',
+        'as'    =>  'admin.blog.cats'
+    ]);
+
+    Route::post('/blog/cats/store', [
+        'uses'  =>  'CatController@store',
+        'as'    =>  'admin.cats.store'
+    ]);
+    Route::post('/blog/cats/update', [
+        'uses'  =>  'CatController@update',
+        'as'    =>  'admin.cats.update'
+    ]);
+
+    Route::get('/blog/cats/delete/{id}', [
+        'uses'  =>  'CatController@delete',
+        'as'    =>  'admin.cats.delete'
+    ]);
+
+    // end cats
+
+
+
 });
